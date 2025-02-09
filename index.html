@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <title>المطبخ الذكي</title>
+    <style>
+        * {
+            direction: rtl;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        header {
+            background-color: #E3F2FD;
+            color: #333;
+            padding: 10px 20px;
+            text-align: center;
+        }
+    
+        header h1 {
+            margin: 5px auto ;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .category {
+            margin: 10px 0;
+            background: #e8e8e8;
+            border-radius: 5px;
+        }
+
+        .category-header {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-header span {
+            font-size: 25px;
+        }
+    
+        .product-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            padding: 0 10px;
+        }
+
+        .category.open .product-list {
+            max-height: 1500px;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+
+        .product {
+            position: relative;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .product img {
+            width: 60px;
+            height: auto;
+            margin-left: 10px;
+        }
+
+        .product-details {
+            flex: 1;
+            display: flex;
+            flex-direction: coulmn;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .size-price {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    
+       .prices div:first-child {
+           border-bottom: 1px solid #333 ;
+       }
+
+       .size-price span {
+           font-size: 11px !important;
+       }
+    
+    
+    
+
+        .availability {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .available {
+            background-color: green;
+        }
+
+        .not-available {
+            background-color: red;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close {
+            cursor: pointer;
+            color: red;
+            margin-top: 10px;
+            display: block;
+        }
+        
+         .social-links {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 200px; /* عرض مناسب للحجم */
+        margin: 0 auto; /* توسيط العنصر */
+    }
+
+    .social-links a {
+        font-size: 12px ;
+        color: #333; /* لون افتراضي */
+        text-decoration: none;
+        transition: color 0.1s ease-in-out;
+    }
+ 
+    
+    
+    </style>
+</head>
+<body>
+    <header>
+        <h1>المطبخ الذكي</h1>
+        <p>
+لو بتدوري على طعم طازة وجودة مضمونة، يبقى مكانك معانا! جربي منتجاتنا واستمتعي بأكل صحي وسريع التحضير. 
+        </p>
+<div class="social-links">
+    <a href="https://www.facebook.com/share/15Xx25aTZJ/" target="_blank">
+        <i class="fa-brands fa-facebook fa-2x"></i>
+    </a>
+    <a href="https://wa.me/201000411140" target="_blank">
+        <i class="fa-brands fa-whatsapp fa-2x"></i>
+    </a>
+    <a href="tel:01000411140">
+        <i class="fa-solid fa-phone fa-2x"></i>
+    </a>
+</div>
+
+      
+        
+    </header>
+    <div class="container" id="categories-container"></div>
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="Product" style="width: 100%;">
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <span class="close" id="close">إغلاق</span>
+        </div>
+    </div>
+
+    <script>
+        
+    
+    const productsData = {
+    "خضروات": [
+        {
+            name: "سبانخ بالخضرة",
+            description: "سبانخ متقطعة بعناية، لونها أخضر طبيعي، ومتجمدة تحافظ على طعمها الطازج، وبتاخد مساحة صغيرة في الفريزر.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "350 جرام", price: "35 جنيه" },
+                { size: "250 جرام", price: "25 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "بسلة بالجزر",
+            description: "بسلة وجزر منتقاة حبة حبة، فريش ومتجمدة تحافظ على قوامها وطعمها، ومش بتاخد مكان في الفريزر.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "580 جرام", price: "55 جنيه" },
+                { size: "350 جرام", price: "40 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "بصل مفروم",
+            description: "بصل فريش متقطع ومفروم جاهز للطبخ، متجمد بدون ما يفقد طعمه، وسهل التخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "440 جرام", price: "55 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "ثوم",
+            description: "ثوم فريش ومتقشر ومفروم بعناية، متجمد بطريقة تحافظ على نكهته القوية، وسهل الاستخدام والتخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "250 جرام", price: "50 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "فاصوليا خضراء",
+            description: "فاصوليا خضراء مقطعة بعناية، لونها فريش ومتجمدة من غير ما تفقد قرمشتها، وسهلة التخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "450 جرام", price: "35 جنيه" },
+                { size: "370 جرام", price: "25 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "بامية زيرو",
+            description: "بامية زيرو متختارة حبة بحبة، فريش ومتجمدة تحافظ على شكلها وطعمها، ومش بتاخد مساحة في الفريزر.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "450 جرام", price: "65 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "قلقاس بالخضرة",
+            description: "قلقاس متقطع ومعمول بالخضرة، فريش ومتجمد بطريقة تحافظ على طعمه، وسهل الاستخدام والتخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "700 جرام", price: "65 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "ملوخية",
+            description: "ملوخية خضراء وفريش، متقطفة بعناية ومتجمدة تحتفظ بلونها وطعمها، وسهلة التخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "450 جرام", price: "45 جنيه" }
+            ],
+            available: true
+        }
+    ],
+    "صلصات": [
+        {
+            name: "طماطم بيور سادة",
+            description: "طماطم فريش مهروسة ومصفاة، متجمدة بطريقة تحافظ على طعمها الطبيعي، وسهلة التخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "550 جرام", price: "25 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "طماطم جاهزة للطبخ",
+            description: "طماطم فريش متقشرة ومجهزة للطبخ، متجمدة تحافظ على قوامها وطعمها الطبيعي، وسهلة التخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "650 جرام", price: "65 جنيه" }
+            ],
+            available: true
+        },
+        {
+            name: "هريسة شطة",
+            description: "شطة حمراء فريش مهروسة، متجمدة تحافظ على حدتها وطعمها المميز، وسهلة الاستخدام والتخزين.",
+            image: "Images/pass.png",
+            sizes: [
+                { size: "400 جرام", price: "40 جنيه" }
+            ],
+            available: true
+        }
+    ]
+};
+    
+    
+    
+
+        const container = document.getElementById("categories-container");
+
+        Object.keys(productsData).forEach(categoryName => {
+            const categoryDiv = document.createElement("div");
+            categoryDiv.classList.add("category");
+
+            const headerDiv = document.createElement("div");
+            headerDiv.classList.add("category-header");
+            headerDiv.innerHTML = `${categoryName} <span>▸</span>`;
+
+            const productListDiv = document.createElement("div");
+            productListDiv.classList.add("product-list");
+
+            let availableProducts = [];
+            let notAvailableProducts = [];
+
+            productsData[categoryName].forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("product");
+                if (!product.available) productDiv.classList.add("not-in-stock");
+
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-details">
+                        <div class="product-name">${product.name}</div>
+                <div class="prices">
+                
+                                       ${product.sizes.map(size => `<div class="size-price">  ${size.price} - <span>${size.size} </span></div>`).join('')}
+                
+                </div>
+                
+                    </div>
+                    <div class="availability ${product.available ? 'available' : 'not-available'}">${product.available ? "متوفر" : "غير متوفر"}</div>
+                `;
+
+                productDiv.dataset.image = product.image;
+                productDiv.dataset.description = product.description;
+
+                productDiv.addEventListener("click", () => {
+                    document.getElementById("modal-image").src = productDiv.dataset.image;
+                    document.getElementById("modal-title").textContent = product.name;
+                    document.getElementById("modal-description").textContent = productDiv.dataset.description;
+                    document.getElementById("modal").style.display = "flex";
+                });
+
+                if (product.available) {
+                    availableProducts.push(productDiv);
+                } else {
+                    notAvailableProducts.push(productDiv);
+                }
+            });
+
+            [...availableProducts, ...notAvailableProducts].forEach(p => productListDiv.appendChild(p));
+
+            categoryDiv.appendChild(headerDiv);
+            categoryDiv.appendChild(productListDiv);
+            container.appendChild(categoryDiv);
+
+            headerDiv.addEventListener("click", () => {
+                document.querySelectorAll(".category").forEach(cat => {
+                 //    if (cat !== categoryDiv) cat.classList.remove("open");
+                });
+                categoryDiv.classList.toggle("open");
+            });
+        });
+
+        setTimeout(() => {
+            document.querySelector(".category").classList.add("open");
+        }, 500);
+
+        document.getElementById("close").addEventListener("click", () => {
+            document.getElementById("modal").style.display = "none";
+        });
+    </script>
+</body>
+</html>
