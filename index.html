@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
+
     <title>المطبخ الذكي</title>
     <style>
         * {
@@ -24,11 +24,82 @@
             padding: 10px 20px;
             text-align: center;
         }
-    
+
         header h1 {
             margin: 5px auto ;
         }
+    
+        /* CSS */
+.header-logo {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
 
+.logo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* يمكن تعديل القيمة حسب الحاجة */
+    margin: 0 auto;
+    padding: 10px;
+    flex-direction: row-reverse;
+}
+
+.logo-image {
+    width: 110px;
+    height: 110px;
+    object-fit: cover; /* للحفاظ على تناسق الصورة */
+    border-radius: 8px; /* اختياري */
+    margin-left: 20px; /* مسافة بين الصورة والنص */
+}
+
+.logo-text {
+    margin-right: 20px; /* مسافة بين النص وحافة الشاشة */
+    font-size: 28px; /* حجم الخط يمكن تعديله */
+    color: #333; /* لون الخط يمكن تعديله */
+}
+
+        header i {
+            margin: 15px auto ;
+            font-size: 18px
+        }
+    
+        /* أنيميشن التكبير والتصغير */
+header i {
+    display: inline-block;
+    animation: pulse 2s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* إضافة تأثيرات إضافية */
+header i {
+    color: #2c3e50; /* لون النص */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* ظل خفيف */
+    transition: all 0.3s ease; /* انتقال سلس */
+}
+
+/* تأثير عند التحويم */
+header i:hover {
+    animation-play-state: paused;
+    transform: scale(1.08);
+    text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+} 
+    
+    
+    
         .container {
             max-width: 600px;
             margin: auto;
@@ -52,7 +123,7 @@
         .category-header span {
             font-size: 25px;
         }
-    
+
         .product-list {
             max-height: 0;
             overflow: hidden;
@@ -101,7 +172,7 @@
             font-weight: bold;
             margin-top: 5px;
         }
-    
+
        .prices div:first-child {
            border-bottom: 1px solid #333 ;
        }
@@ -109,9 +180,9 @@
        .size-price span {
            font-size: 11px !important;
        }
-    
-    
-    
+
+
+
 
         .availability {
             position: absolute;
@@ -159,7 +230,7 @@
             margin-top: 10px;
             display: block;
         }
-        
+
          .social-links {
         display: flex;
         justify-content: space-between;
@@ -174,17 +245,138 @@
         text-decoration: none;
         transition: color 0.1s ease-in-out;
     }
- 
+
+
+      :root {
+            --primary-blue: #2c3e50;
+            --accent-orange: green;
+            --light-bg: green;
+        }
+
+        .ramadan-counter {
+            background: #E3F2FD;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 0 auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .counter-title {
+            color: var(--primary-blue);
+            margin: 0 0 25px 0;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .countdown-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9em;
+            color: var(--accent-orange);
+            font-weight: 500;
+        }
+
+        /* تأثير التحديث */
+        .countdown-number.update {
+            animation: flip 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes flip {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(-90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        /* الشريط المتحرك */
+        .countdown-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-orange);
+            animation: progress 1s linear infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
     
     
+
     </style>
 </head>
 <body>
+    
+    
+    
+    <div class="ramadan-counter">
+        <div class="counter-title">العد التنازلي لشهر رمضان    الكريم ❤️</div>
+        <div class="countdown-grid">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">أيام</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">ساعات</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">دقائق</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">ثواني</span>
+            </div>
+        </div>
+    </div>
+
+    
+    
+    
     <header>
-        <h1>المطبخ الذكي</h1>
-        <p>
-لو بتدوري على طعم طازة وجودة مضمونة، يبقى مكانك معانا! جربي منتجاتنا واستمتعي بأكل صحي وسريع التحضير. 
-        </p>
+        
+       <!-- HTML -->
+<h1 class="header-logo">
+    <div class="logo-container">
+        <img src="pass.png" alt="لوجو" class="logo-image">
+        <span class="logo-text">المطبخ الذكي</span>
+    </div>
+</h1>
+        
+        <b>
+        <i>
+            المطبخ بقي (اسهل!)
+        </i>       
+        </b>
 <div class="social-links">
     <a href="https://www.facebook.com/share/15Xx25aTZJ/" target="_blank">
         <i class="fa-brands fa-facebook fa-2x"></i>
@@ -197,9 +389,9 @@
     </a>
 </div>
 
-      
-        
     </header>
+    
+    
     <div class="container" id="categories-container"></div>
     <div class="modal" id="modal">
         <div class="modal-content">
@@ -211,8 +403,8 @@
     </div>
 
     <script>
-        
-    
+
+
     const productsData = {
     "خضروات": [
         {
@@ -321,9 +513,9 @@
         }
     ]
 };
-    
-    
-    
+
+
+
 
         const container = document.getElementById("categories-container");
 
@@ -398,6 +590,61 @@
         document.getElementById("close").addEventListener("click", () => {
             document.getElementById("modal").style.display = "none";
         });
+    
+    
+    
+    
+    
+    
+    
+        // تاريخ بداية رمضان 1 مارس 2025 بتوقيت مكة
+        const ramadanDate = new Date('2025-03-01T00:00:00+03:00');
+        
+        const elements = {
+            days: document.getElementById('days'),
+            hours: document.getElementById('hours'),
+            minutes: document.getElementById('minutes'),
+            seconds: document.getElementById('seconds')
+        };
+
+        function updateCounter() {
+            const now = new Date();
+            const diff = ramadanDate - now;
+
+            if(diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                updateElement('days', days);
+                updateElement('hours', hours);
+                updateElement('minutes', minutes);
+                updateElement('seconds', seconds);
+            } else {
+                clearInterval(interval);
+                document.querySelector('.ramadan-counter').innerHTML = `
+                    <div style="padding: 30px; color: var(--primary-blue); font-size: 1.4em;">
+                        🎉 كل عام وأنتم بخير! رمضان مبارك 🎉
+                    </div>
+                `;
+            }
+        }
+
+        function updateElement(element, value) {
+            const formattedValue = String(value).padStart(2, '0');
+            if(elements[element].textContent !== formattedValue) {
+                elements[element].classList.add('update');
+                elements[element].textContent = formattedValue;
+                setTimeout(() => elements[element].classList.remove('update'), 600);
+            }
+        }
+
+        const interval = setInterval(updateCounter, 1000);
+        updateCounter();
+    
+    
+    
     </script>
 </body>
 </html>
